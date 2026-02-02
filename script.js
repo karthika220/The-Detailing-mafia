@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Create WhatsApp message
             const message = `Hi, I would like to book an appointment:%0A%0AName: ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AEmail: ${encodeURIComponent(email)}%0AServices: ${encodeURIComponent(services)}`;
-            const whatsappURL = `https://wa.me/919940698326?text=${message}`;
+            const whatsappURL = `https://wa.me/919900379167?text=${message}`;
             
             // Open WhatsApp
             window.open(whatsappURL, '_blank');
