@@ -1007,7 +1007,7 @@ h1, h2, h3 {
     }
     
     .logo-img {
-        height: 80px !important; /* Use desktop logo size */
+        height: 70px !important; /* Use desktop logo size */
         width: auto;
     }
     
