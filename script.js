@@ -108,7 +108,7 @@ const reviewNext = document.querySelector('.review-nav.next');
 
 if (reviewTrack && reviewCards.length && reviewPrev && reviewNext) {
     let currentIndex = 0;
-    const reviewsPerView = 3;
+    const reviewsPerView = 1;
     const totalReviews = reviewCards.length;
 
     function updateReviewSlider() {
