@@ -1125,6 +1125,9 @@ h1, h2, h3 {
 .reviews-wrapper {
     overflow: hidden;
     width: 100%;
+    touch-action: pan-y; /* allow vertical scroll, capture horizontal */
+
+
 }
 
 .reviews-track {

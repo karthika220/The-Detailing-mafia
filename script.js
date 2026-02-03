@@ -153,6 +153,43 @@ if (track && cards.length && reviewPrevBtn && reviewNextBtn) {
         index -= perView;
         setPosition(true);
     });
+    // =============================
+// Swipe support (MOBILE)
+// =============================
+
+let startX = 0;
+let startY = 0;
+let isSwiping = false;
+
+viewport.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isSwiping = false;
+}, { passive: true });
+
+viewport.addEventListener('touchmove', e => {
+    const diffX = Math.abs(e.touches[0].clientX - startX);
+    const diffY = Math.abs(e.touches[0].clientY - startY);
+
+    // Detect horizontal swipe intent
+    if (diffX > diffY && diffX > 10) {
+        isSwiping = true;
+    }
+}, { passive: true });
+
+viewport.addEventListener('touchend', e => {
+    if (!isSwiping || isAnimating) return;
+
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+        isAnimating = true;
+        index += diff > 0 ? perView : -perView;
+        setPosition(true);
+    }
+});
+
 
     track.addEventListener('transitionend', () => {
         isAnimating = false;
