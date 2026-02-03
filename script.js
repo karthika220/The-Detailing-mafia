@@ -100,36 +100,80 @@ if (galleryTrack && galleryItems.length && prevBtn && nextBtn) {
 }
 
 
-   // Review slider functionality (3 reviews per slide)
-const reviewTrack = document.querySelector('.reviews-track');
-const reviewCards = document.querySelectorAll('.review-card');
-const reviewPrev = document.querySelector('.review-nav.prev');
-const reviewNext = document.querySelector('.review-nav.next');
+// =============================
+// Reviews Slider (3 per view | Infinite loop)
+// =============================
 
-if (reviewTrack && reviewCards.length && reviewPrev && reviewNext) {
-    let currentIndex = 0;
-    const reviewsPerView = 1;
-    const totalReviews = reviewCards.length;
+// =============================
+// Reviews Slider (3 per view | Infinite | FINAL)
+// =============================
 
-    function updateReviewSlider() {
-        const cardWidth = reviewCards[0].offsetWidth + 25; // card width + gap
-        reviewTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+const track = document.querySelector('.reviews-track');
+const reviewPrevBtn = document.querySelector('.review-nav.prev');
+const reviewNextBtn = document.querySelector('.review-nav.next');
+let cards = document.querySelectorAll('.review-card');
+
+if (track && cards.length && reviewPrevBtn && reviewNextBtn) {
+    const gap = 24;      // MUST match CSS
+    const perView = 3;
+    let index = perView;
+    let isAnimating = false;
+
+    // Clone last & first 3 cards
+    const firstClones = [...cards].slice(0, perView).map(c => c.cloneNode(true));
+    const lastClones  = [...cards].slice(-perView).map(c => c.cloneNode(true));
+
+    lastClones.forEach(clone => track.insertBefore(clone, cards[0]));
+    firstClones.forEach(clone => track.appendChild(clone));
+
+    cards = document.querySelectorAll('.review-card');
+
+    function cardWidth() {
+        return cards[0].getBoundingClientRect().width + gap;
     }
 
-    reviewNext.addEventListener('click', () => {
-        if (currentIndex + reviewsPerView < totalReviews) {
-            currentIndex += reviewsPerView;
-            updateReviewSlider();
-        }
+    function setPosition(animate = true) {
+        track.style.transition = animate ? 'transform 0.4s ease' : 'none';
+        track.getBoundingClientRect(); // force reflow
+        track.style.transform = `translateX(-${index * cardWidth()}px)`;
+    }
+
+    setPosition(false);
+
+    reviewNextBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        index += perView;
+        setPosition(true);
     });
 
-    reviewPrev.addEventListener('click', () => {
-        if (currentIndex - reviewsPerView >= 0) {
-            currentIndex -= reviewsPerView;
-            updateReviewSlider();
+    reviewPrevBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        index -= perView;
+        setPosition(true);
+    });
+
+    track.addEventListener('transitionend', () => {
+        isAnimating = false;
+
+        if (index >= cards.length - perView) {
+            index = perView;
+            setPosition(false);
+        }
+
+        if (index < perView) {
+            index = cards.length - perView * 2;
+            setPosition(false);
         }
     });
 }
+
+
+
+
+
+
 
 
     // Scroll animations

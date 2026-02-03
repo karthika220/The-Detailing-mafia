@@ -1109,29 +1109,54 @@ h1, h2, h3 {
     }
     
     /* ============================= */
-    /* Reviews Section */
-    /* ============================= */
-    .google-reviews,
-    .reviews {
-        padding: 60px 0;
-    }
-    
-    .review-card {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-    
-    .review-nav.prev {
-        left: 0;
-    }
-    
-    .review-nav.next {
-        right: 0;
-    }
-    
-    .reviews-slider {
-        padding: 0 20px;
-    }
+/* Reviews Section */
+/* ============================= */
+
+.google-reviews,
+.reviews {
+    padding: 60px 0;
+}
+
+.reviews-slider {
+    padding: 0 20px;
+    position: relative;
+}
+
+.reviews-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
+.reviews-track {
+    display: flex;
+    gap: 25px; /* MUST match JS gap */
+    transition: transform 0.4s ease;
+    will-change: transform;
+}
+
+/* 🔥 3 cards per view */
+.review-card {
+    flex-shrink: 0;
+    width: calc((100% - 50px) / 3); /* 3 cards + 2 gaps */
+}
+
+/* Navigation buttons */
+.review-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.review-nav.prev {
+    left: 0;
+}
+
+.review-nav.next {
+    right: 0;
+}
+
+
     
     /* ============================= */
     /* Location Section - Improved Mobile Layout */
