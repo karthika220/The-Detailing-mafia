@@ -1,191 +1,173 @@
-document.addEventListener('DOMContentLoaded', function () {
-
-    /* =============================
-       FAQ ACCORDION
-    ============================= */
+// FAQ Accordion
+document.addEventListener('DOMContentLoaded', function() {
+    // FAQ functionality
     const faqItems = document.querySelectorAll('.faq-item');
-
+    
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
-
+        
         question.addEventListener('click', () => {
-            faqItems.forEach(other => {
-                if (other !== item) {
-                    other.classList.remove('active');
-                    other.querySelector('.faq-icon').textContent = '+';
+            // Close all other items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.faq-icon').textContent = '+';
                 }
             });
-
+            
+            // Toggle current item
             item.classList.toggle('active');
-            item.querySelector('.faq-icon').textContent =
-                item.classList.contains('active') ? '−' : '+';
+            const icon = item.querySelector('.faq-icon');
+            icon.textContent = item.classList.contains('active') ? '−' : '+';
         });
     });
 
-    /* =============================
-       SMOOTH SCROLL
-    ============================= */
+    // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', e => {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(anchor.getAttribute('href'));
-            if (!target) return;
-
-            window.scrollTo({
-                top: target.offsetTop - 80,
-                behavior: 'smooth'
-            });
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const headerOffset = 80;
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
         });
     });
 
-    /* =============================
-       FORM → WHATSAPP
-    ============================= */
-    const bookingForm = document.getElementById('bookingForm');
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+    <a href="tel:+919900379167" class="cta-btn" aria-label="Call Detailing Mafia Now">
+    Call Now
+</a>
 
-            const name = this.querySelector('[name="name"]').value;
-            const phone = this.querySelector('[name="phone"]').value;
-            const email = this.querySelector('[name="email"]').value;
-            const services = this.querySelector('[name="services"]').value;
 
-            const message =
-                `Hi, I would like to book an appointment:%0A%0A` +
-                `Name: ${encodeURIComponent(name)}%0A` +
-                `Phone: ${encodeURIComponent(phone)}%0A` +
-                `Email: ${encodeURIComponent(email)}%0A` +
-                `Services: ${encodeURIComponent(services)}`;
+    // Gallery slider functionality (basic)
+    // Gallery slider functionality (3 images per slide)
+const galleryTrack = document.querySelector('.gallery-track');
+const galleryItems = document.querySelectorAll('.gallery-item');
+const prevBtn = document.querySelector('.gallery-slider .prev');
+const nextBtn = document.querySelector('.gallery-slider .next');
 
-            window.open(`https://wa.me/919900379167?text=${message}`, '_blank');
-            alert('Thank you! Redirecting to WhatsApp to confirm your appointment.');
-            this.reset();
-        });
+if (galleryTrack && galleryItems.length && prevBtn && nextBtn) {
+    const itemsPerView = 3;
+    const totalSlides = Math.ceil(galleryItems.length / itemsPerView);
+    let currentIndex = 0;
+
+    function updateSlider() {
+        galleryTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
-    /* =============================
-       GALLERY SLIDER (DESKTOP)
-    ============================= */
-    const galleryTrack = document.querySelector('.gallery-track');
-    const galleryPrevBtn = document.querySelector('.gallery-slider .prev');
-    const galleryNextBtn = document.querySelector('.gallery-slider .next');
-
-    if (galleryTrack && galleryPrevBtn && galleryNextBtn) {
-        let index = 0;
-        const perView = 3;
-        const total = Math.ceil(galleryTrack.children.length / perView);
-
-        function updateGallery() {
-            galleryTrack.style.transform = `translateX(-${index * 100}%)`;
+    nextBtn.addEventListener('click', () => {
+        currentIndex++;
+        if (currentIndex >= totalSlides) {
+            currentIndex = 0;
         }
+        updateSlider();
+    });
 
-        galleryNextBtn.addEventListener('click', () => {
-            index = (index + 1) % total;
-            updateGallery();
-        });
-
-        galleryPrevBtn.addEventListener('click', () => {
-            index = (index - 1 + total) % total;
-            updateGallery();
-        });
-    }
-
-    /* =============================
-       REVIEWS SLIDER (DESKTOP ONLY)
-    ============================= */
-    if (window.innerWidth > 768) {
-
-        const track = document.querySelector('.reviews-track');
-        const reviewPrevBtn = document.querySelector('.review-nav.prev');
-        const reviewNextBtn = document.querySelector('.review-nav.next');
-        let cards = document.querySelectorAll('.review-card');
-
-        if (track && cards.length && reviewPrevBtn && reviewNextBtn) {
-
-            const gap = 24;       // must match CSS
-            const perView = 3;
-            let index = perView;
-            let isAnimating = false;
-
-            // Clone cards for infinite loop
-            const firstClones = [...cards].slice(0, perView).map(c => c.cloneNode(true));
-            const lastClones  = [...cards].slice(-perView).map(c => c.cloneNode(true));
-
-            lastClones.forEach(c => track.insertBefore(c, cards[0]));
-            firstClones.forEach(c => track.appendChild(c));
-
-            cards = document.querySelectorAll('.review-card');
-
-            function cardWidth() {
-                return cards[0].getBoundingClientRect().width + gap;
-            }
-
-            function setPosition(animate = true) {
-                track.style.transition = animate ? 'transform 0.4s ease' : 'none';
-                track.style.transform = `translateX(-${index * cardWidth()}px)`;
-            }
-
-            setPosition(false);
-
-            reviewNextBtn.addEventListener('click', () => {
-                if (isAnimating) return;
-                isAnimating = true;
-                index += perView;
-                setPosition(true);
-            });
-
-            reviewPrevBtn.addEventListener('click', () => {
-                if (isAnimating) return;
-                isAnimating = true;
-                index -= perView;
-                setPosition(true);
-            });
-
-            track.addEventListener('transitionend', () => {
-                isAnimating = false;
-
-                if (index >= cards.length - perView) {
-                    index = perView;
-                    setPosition(false);
-                }
-                if (index < perView) {
-                    index = cards.length - perView * 2;
-                    setPosition(false);
-                }
-            });
+    prevBtn.addEventListener('click', () => {
+        currentIndex--;
+        if (currentIndex < 0) {
+            currentIndex = totalSlides - 1;
         }
+        updateSlider();
+    });
+}
+
+
+   // Review slider functionality (3 reviews per slide)
+const reviewTrack = document.querySelector('.reviews-track');
+const reviewCards = document.querySelectorAll('.review-card');
+const reviewPrev = document.querySelector('.review-nav.prev');
+const reviewNext = document.querySelector('.review-nav.next');
+
+if (reviewTrack && reviewCards.length && reviewPrev && reviewNext) {
+    let currentIndex = 0;
+    const reviewsPerView = 3;
+    const totalReviews = reviewCards.length;
+
+    function updateReviewSlider() {
+        const cardWidth = reviewCards[0].offsetWidth + 25; // card width + gap
+        reviewTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
     }
 
-    /* =============================
-       SCROLL ANIMATIONS
-    ============================= */
-    const observer = new IntersectionObserver(entries => {
+    reviewNext.addEventListener('click', () => {
+        if (currentIndex + reviewsPerView < totalReviews) {
+            currentIndex += reviewsPerView;
+            updateReviewSlider();
+        }
+    });
+
+    reviewPrev.addEventListener('click', () => {
+        if (currentIndex - reviewsPerView >= 0) {
+            currentIndex -= reviewsPerView;
+            updateReviewSlider();
+        }
+    });
+}
+
+
+    // Scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
             }
         });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.service-card, .feature-card, .gallery-item')
-        .forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
-        });
-
-    /* =============================
-       HEADER SHADOW ON SCROLL
-    ============================= */
-    const header = document.querySelector('.header');
-    window.addEventListener('scroll', () => {
-        header.style.boxShadow =
-            window.scrollY > 0
-                ? '0 2px 20px rgba(0,0,0,0.3)'
-                : '0 2px 10px rgba(0,0,0,0.3)';
+    }, observerOptions);
+    
+    // Observe elements for animation
+    const animatedElements = document.querySelectorAll('.service-card, .feature-card, .review-card, .gallery-item');
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease';
+        observer.observe(el);
     });
 
+    // Header scroll effect
+    let lastScroll = 0;
+    const header = document.querySelector('.header');
+    
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll > 0) {
+            header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.3)';
+        } else {
+            header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+        }
+        
+        lastScroll = currentScroll;
+    });
+
+    // Page indicator scroll update (optional enhancement)
+    const sections = document.querySelectorAll('section');
+    const pageIndicator = document.querySelector('.page-indicator span');
+    
+    window.addEventListener('scroll', () => {
+        let current = 1;
+        const scrollPosition = window.pageYOffset + 200;
+        
+        sections.forEach((section, index) => {
+            if (scrollPosition >= section.offsetTop) {
+                current = index + 1;
+            }
+        });
+        
+        if (pageIndicator) {
+            const total = sections.length;
+            pageIndicator.textContent = `${Math.min(current, total)} / ${total}`;
+        }
+    });
 });
