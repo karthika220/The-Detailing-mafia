@@ -1121,7 +1121,7 @@ h1, h2, h3 {
     padding: 0 20px;
     position: relative;
 }
-
+.reviews-viewport,
 .reviews-wrapper {
     overflow: hidden;
     width: 100%;

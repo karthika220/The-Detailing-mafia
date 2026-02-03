@@ -175,10 +175,22 @@ viewport.addEventListener('touchend', e => {
 
     if (Math.abs(diff) > 50) {
         isAnimating = true;
-        index += diff > 0 ? perView : -perView;
+
+        if (diff > 0) {
+            index += perView;   // swipe left → next
+        } else {
+            index -= perView;   // swipe right → prev
+        }
+
+        // 🔒 FORCE SNAP to exact index
+        index = Math.round(index / perView) * perView;
+
         setPosition(true);
     }
+
+    isSwiping = false;
 });
+
 
 
 
