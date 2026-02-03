@@ -138,24 +138,15 @@ if (track && cards.length && reviewPrevBtn && reviewNextBtn) {
         track.style.transform = `translateX(-${index * cardWidth()}px)`;
     }
 
+    
     setPosition(false);
 
-    reviewNextBtn.addEventListener('click', () => {
-        if (isAnimating) return;
-        isAnimating = true;
-        index += perView;
-        setPosition(true);
-    });
+/* =============================
+   MOBILE SWIPE SUPPORT
+============================= */
 
-    reviewPrevBtn.addEventListener('click', () => {
-        if (isAnimating) return;
-        isAnimating = true;
-        index -= perView;
-        setPosition(true);
-    });
-    // =============================
-// Swipe support (MOBILE)
-// =============================
+const viewport = document.querySelector('.reviews-viewport'); 
+// or .reviews-wrapper — MUST match HTML
 
 let startX = 0;
 let startY = 0;
@@ -168,11 +159,10 @@ viewport.addEventListener('touchstart', e => {
 }, { passive: true });
 
 viewport.addEventListener('touchmove', e => {
-    const diffX = Math.abs(e.touches[0].clientX - startX);
-    const diffY = Math.abs(e.touches[0].clientY - startY);
+    const dx = Math.abs(e.touches[0].clientX - startX);
+    const dy = Math.abs(e.touches[0].clientY - startY);
 
-    // Detect horizontal swipe intent
-    if (diffX > diffY && diffX > 10) {
+    if (dx > dy && dx > 10) {
         isSwiping = true;
     }
 }, { passive: true });
@@ -190,6 +180,22 @@ viewport.addEventListener('touchend', e => {
     }
 });
 
+
+
+    reviewNextBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        index += perView;
+        setPosition(true);
+    });
+
+    reviewPrevBtn.addEventListener('click', () => {
+        if (isAnimating) return;
+        isAnimating = true;
+        index -= perView;
+        setPosition(true);
+    });
+    
 
     track.addEventListener('transitionend', () => {
         isAnimating = false;
