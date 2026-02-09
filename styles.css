@@ -3,6 +3,15 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none !important;
+}
+
+*:focus {
+    outline: none !important;
 }
 
 :root {
@@ -23,6 +32,54 @@ body {
     overflow-x: hidden;
     background-color: #000000;
     padding-top: 72px;
+}
+
+/* Hide caret cursor - make it completely invisible */
+* {
+    caret-color: transparent !important;
+}
+
+input,
+textarea,
+input:focus,
+textarea:focus,
+input:active,
+textarea:active,
+[contenteditable="true"],
+[contenteditable],
+[contenteditable]:focus,
+body,
+html,
+div,
+span,
+p,
+a,
+button {
+    caret-color: transparent !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Allow text selection only in input fields for usability */
+input,
+textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Remove text selection highlight */
+::selection {
+    background: transparent !important;
+    color: inherit !important;
+}
+
+::-moz-selection {
+    background: transparent !important;
+    color: inherit !important;
 }
 
 .container {
@@ -822,6 +879,7 @@ h1, h2, h3 {
     font-size: 15px;
     font-family: inherit;
     transition: all 0.3s ease;
+    caret-color: transparent !important;
 }
 
 .form-group select {
@@ -844,6 +902,7 @@ h1, h2, h3 {
     outline: none;
     border-color: var(--primary-orange);
     box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+    caret-color: transparent !important;
 }
 
 .form-group select option {
