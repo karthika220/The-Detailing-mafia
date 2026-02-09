@@ -40,11 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    <a href="tel:+919900379167" class="cta-btn" aria-label="Call Detailing Mafia Now">
-    Call Now
-</a>
-
-
     // Gallery slider functionality (basic)
     // Gallery slider functionality (3 images per slide)
 const galleryTrack = document.querySelector('.gallery-track');
@@ -89,10 +84,15 @@ if (reviewTrack && reviewCards.length && reviewPrev && reviewNext) {
     let currentIndex = 0;
     const reviewsPerView = 3;
     const totalReviews = reviewCards.length;
+    const gap = 24; // CSS gap value
 
     function updateReviewSlider() {
-        const cardWidth = reviewCards[0].offsetWidth + 25; // card width + gap
-        reviewTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+        if (reviewCards[0]) {
+            const cardWidth = reviewCards[0].offsetWidth;
+            // Calculate distance: currentIndex cards + currentIndex gaps
+            const translateX = currentIndex * (cardWidth + gap);
+            reviewTrack.style.transform = `translateX(-${translateX}px)`;
+        }
     }
 
     reviewNext.addEventListener('click', () => {
@@ -171,3 +171,77 @@ if (reviewTrack && reviewCards.length && reviewPrev && reviewNext) {
         }
     });
 });
+// ==============================
+// GA4 Event Tracking – Call & WhatsApp
+// ==============================
+
+// Track all elements with data-event attributes
+document.addEventListener('DOMContentLoaded', function() {
+    // Track call buttons
+    document.querySelectorAll('[data-event="call_click"], .call-btn, a[href^="tel:"]').forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Track via GA4
+            if (typeof gtag === 'function') {
+                gtag('event', 'call_click', {
+                    event_category: 'engagement',
+                    event_label: 'Call Button Click',
+                    value: 1
+                });
+            }
+            // Track via GTM dataLayer
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'call_click',
+                    'event_category': 'engagement',
+                    'event_label': 'Call Button Click'
+                });
+            }
+        });
+    });
+
+    // Track WhatsApp buttons
+    document.querySelectorAll('[data-event="whatsapp_click"], .whatsapp-icon, a[href*="wa.me"]').forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Track via GA4
+            if (typeof gtag === 'function') {
+                gtag('event', 'whatsapp_click', {
+                    event_category: 'engagement',
+                    event_label: 'WhatsApp Button Click',
+                    value: 1
+                });
+            }
+            // Track via GTM dataLayer
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'whatsapp_click',
+                    'event_category': 'engagement',
+                    'event_label': 'WhatsApp Button Click'
+                });
+            }
+        });
+    });
+
+    // Track CTA button clicks
+    document.querySelectorAll('.cta-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const buttonText = this.textContent.trim();
+            // Track via GA4
+            if (typeof gtag === 'function') {
+                gtag('event', 'cta_click', {
+                    event_category: 'engagement',
+                    event_label: buttonText,
+                    value: 1
+                });
+            }
+            // Track via GTM dataLayer
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'cta_click',
+                    'event_category': 'engagement',
+                    'event_label': buttonText
+                });
+            }
+        });
+    });
+});
+

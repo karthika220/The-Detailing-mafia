@@ -5,6 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Detailing Mafia - Professional Car Detailing in Sarjapura, Bangalore.</title>
 
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google Analytics 4 (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    <!-- End Google Analytics 4 -->
+
     <!-- STEP 1: Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +33,11 @@
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -22,7 +45,7 @@
                 <img src="assets/logo.png" alt="Detailing Mafia Logo" class="logo-img">
             </div>
             <div class="header-actions">
-                <a href="https://wa.me/919900379167" class="whatsapp-icon" target="_blank">
+                <a href="https://wa.me/919900379167" data-event="whatsapp_click" class="whatsapp-icon" target="_blank">
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
                   alt="WhatsApp"
@@ -31,7 +54,7 @@
                   />
 </a>
 
-                <a href="tel:+919900379167" class="call-btn">
+                <a href="tel:+919900379167" class="call-btn" data-event="call_click">
                     <img src="https://cdn-icons-png.flaticon.com/512/455/455705.png" alt="Call">
                     +91 99003 79167
                 </a>
@@ -256,7 +279,7 @@
         </div>
 
         <div class="location-buttons">
-          <a href="" class="cta-btn">Schedule Your Appointment</a>
+          <a href="tel:+919900379167" class="cta-btn">Schedule Your Appointment</a>
          <a
            href="https://maps.app.goo.gl/ebto7MScTRf3jZVPA?g_st=aw"
            target="_blank"
